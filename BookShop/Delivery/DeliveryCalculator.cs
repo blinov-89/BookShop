@@ -15,11 +15,10 @@ namespace BookShop.Delivery
                     var hasBook = books.OfType<Book>().Any();
                     if (!hasBook)
                         throw new NoBookException();
-                    if(books.Count == 1)
-                    {
-                        var book = (Book)books.First();
-                        if (book.TypeBook == FormatBook.Fb2) return 0;
-                    }
+                    
+                    var paperBookCount = books.OfType<Book>().Where(x => x.TypeBook == FormatBook.Paper).Count();
+                    if (paperBookCount == 0) return 0;
+                    
                     var sum = books.Sum(p => p.Price);
                     if (sum < 1000)
                         return 200;
